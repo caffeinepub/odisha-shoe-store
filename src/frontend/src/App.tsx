@@ -1,15 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import {
-  Headphones,
-  Menu,
-  Phone,
-  Shield,
-  ShoppingCart,
-  Star,
-  Truck,
-  X,
-} from "lucide-react";
+import { Headphones, Menu, Phone, Shield, Star, Truck, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
 
@@ -107,9 +97,11 @@ function ProductCard({
   product,
   index,
 }: { product: (typeof products)[0]; index: number }) {
-  const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-    `Hi! I'd like to order: ${product.name} - ₹${product.price}`,
-  )}`;
+  const waMessage = `Hi, I want to order:
+Product: ${product.name}
+Size: 
+Address: `;
+  const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(waMessage)}`;
 
   return (
     <motion.div
@@ -153,20 +145,13 @@ function ProductCard({
           ₹{product.price}
         </div>
 
-        <div className="flex flex-col gap-2 mt-auto pt-3">
-          <Button
-            className="w-full bg-accent text-accent-foreground hover:bg-accent/90 font-semibold min-h-[44px]"
-            data-ocid={`product.primary_button.${product.id}`}
-          >
-            <ShoppingCart className="w-4 h-4 mr-2" />
-            Add to Cart
-          </Button>
+        <div className="mt-auto pt-3">
           <a
             href={waUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center gap-2 w-full bg-whatsapp text-white font-semibold rounded-md min-h-[44px] px-4 hover:opacity-90 transition-opacity text-sm"
-            data-ocid={`product.secondary_button.${product.id}`}
+            data-ocid={`product.primary_button.${product.id}`}
           >
             <WhatsAppIcon />
             Order on WhatsApp
@@ -179,7 +164,6 @@ function ProductCard({
 
 export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [cartCount] = useState(0);
 
   const navLinks = [
     { label: "Home", href: "#" },
@@ -229,37 +213,20 @@ export default function App() {
             ))}
           </nav>
 
-          {/* Actions */}
-          <div className="flex items-center gap-3">
-            <button
-              type="button"
-              className="relative p-2 rounded-full hover:bg-muted transition-colors"
-              aria-label="Cart"
-              data-ocid="nav.button"
-            >
-              <ShoppingCart className="w-5 h-5 text-foreground" />
-              {cartCount > 0 && (
-                <span className="absolute -top-1 -right-1 w-4 h-4 bg-teal text-white text-xs rounded-full flex items-center justify-center">
-                  {cartCount}
-                </span>
-              )}
-            </button>
-
-            {/* Mobile menu toggle */}
-            <button
-              type="button"
-              className="md:hidden p-2 rounded-full hover:bg-muted transition-colors"
-              onClick={() => setMobileMenuOpen((v) => !v)}
-              aria-label="Toggle mobile menu"
-              data-ocid="nav.toggle"
-            >
-              {mobileMenuOpen ? (
-                <X className="w-5 h-5" />
-              ) : (
-                <Menu className="w-5 h-5" />
-              )}
-            </button>
-          </div>
+          {/* Mobile menu toggle */}
+          <button
+            type="button"
+            className="md:hidden p-2 rounded-full hover:bg-muted transition-colors"
+            onClick={() => setMobileMenuOpen((v) => !v)}
+            aria-label="Toggle mobile menu"
+            data-ocid="nav.toggle"
+          >
+            {mobileMenuOpen ? (
+              <X className="w-5 h-5" />
+            ) : (
+              <Menu className="w-5 h-5" />
+            )}
+          </button>
         </div>
 
         {/* Mobile Menu */}
